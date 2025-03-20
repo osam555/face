@@ -1,0 +1,9 @@
+pandas
+openpyxl
+edge-tts
+streamlit
+opencv-python-headless
+numpy
+mediapipe
+matplotlib
+Pillow 
