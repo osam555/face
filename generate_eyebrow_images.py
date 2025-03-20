@@ -44,9 +44,9 @@ cv2.imwrite('images/eyebrow_types/arched.jpg', img)
 img = np.ones((300, 400, 3), dtype=np.uint8) * 255
 points = np.array([
     [100, 150],  # 시작점
-    [150, 135],  # 컨트롤 포인트 1
-    [200, 130],  # 정점
-    [250, 135],  # 컨트롤 포인트 2
+    [150, 145],  # 컨트롤 포인트 1 (더 완만한 곡선을 위해 높이 조정)
+    [200, 140],  # 정점 (더 낮은 높이로 조정)
+    [250, 145],  # 컨트롤 포인트 2
     [300, 150]   # 끝점
 ], dtype=np.int32)
 img = draw_smooth_curve(img, points)
