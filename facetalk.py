@@ -40,6 +40,65 @@ st.set_page_config(
 st.title('👁️ 얼굴 인상학 분석 및 눈썹 메이크업 추천')
 st.write('사진을 업로드하면 눈썹을 분석하고 인상학적 해석과 메이크업 추천을 제공합니다.')
 
+# 눈썹 유형별 이미지와 설명을 가져오는 함수
+def get_eyebrow_type_info():
+    eyebrow_types = {
+        "일자형": {
+            "image": "images/eyebrow_types/straight.jpg",
+            "description": "일자형 눈썹은 수평에 가까운 형태로, 논리적이고 실용적인 성격을 나타냅니다. 직선적인 형태가 특징이며, 안정적이고 체계적인 성격을 보여줍니다.",
+            "characteristics": [
+                "논리적이고 실용적인 성격",
+                "체계적이고 안정적인 성향",
+                "결단력이 강하고 명확한 주관",
+                "효율적인 의사소통 선호"
+            ]
+        },
+        "아치형": {
+            "image": "images/eyebrow_types/arched.jpg",
+            "description": "아치형 눈썹은 부드러운 곡선을 그리는 형태로, 카리스마와 표현력이 풍부한 성격을 나타냅니다. 우아하고 세련된 인상을 주며, 창의력이 뛰어납니다.",
+            "characteristics": [
+                "카리스마와 표현력이 풍부",
+                "창의적이고 예술적 감각",
+                "사교적이고 감성적인 성향",
+                "리더십과 소통 능력이 뛰어남"
+            ]
+        },
+        "둥근형": {
+            "image": "images/eyebrow_types/rounded.jpg",
+            "description": "둥근형 눈썹은 부드러운 곡선을 그리는 형태로, 친근하고 협력적인 성격을 나타냅니다. 평화를 추구하고 타인을 배려하는 성향이 강합니다.",
+            "characteristics": [
+                "친근하고 부드러운 성격",
+                "협력적이고 배려심이 많음",
+                "평화를 추구하는 성향",
+                "안정적이고 신뢰감 있는 성격"
+            ]
+        },
+        "각진형": {
+            "image": "images/eyebrow_types/angular.jpg",
+            "description": "각진형 눈썹은 날카로운 각도를 가진 형태로, 강인한 의지와 추진력을 가진 성격을 나타냅니다. 목표 지향적이고 성취욕이 높은 특징이 있습니다.",
+            "characteristics": [
+                "강인한 의지와 추진력",
+                "목표 지향적이고 성취욕이 높음",
+                "결단력이 강하고 도전적",
+                "리더십과 책임감이 강함"
+            ]
+        },
+        "기본형": {
+            "image": "images/eyebrow_types/natural.jpg",
+            "description": "기본형 눈썹은 자연스러운 곡선을 가진 형태로, 균형 잡힌 성격을 나타냅니다. 적응력이 좋고 다양한 상황에 대처할 수 있는 능력이 있습니다.",
+            "characteristics": [
+                "균형 잡힌 성격",
+                "적응력이 뛰어남",
+                "안정적이고 신뢰감 있음",
+                "조화로운 대인관계"
+            ]
+        }
+    }
+    return eyebrow_types
+
+# 눈썹 유형 정보 가져오기
+eyebrow_types = get_eyebrow_type_info()
+
 # 사이드바 설정
 with st.sidebar:
     st.header("설정")
@@ -51,6 +110,20 @@ with st.sidebar:
         step=0.1
     )
     face_mesh.min_detection_confidence = confidence_threshold
+    
+    # 눈썹 유형 정보 표시
+    st.header("눈썹 유형 정보")
+    selected_type = st.selectbox(
+        "눈썹 유형 선택",
+        list(eyebrow_types.keys())
+    )
+    
+    if selected_type:
+        st.image(eyebrow_types[selected_type]["image"], caption=selected_type, use_column_width=True)
+        st.write(eyebrow_types[selected_type]["description"])
+        st.subheader("특징")
+        for char in eyebrow_types[selected_type]["characteristics"]:
+            st.write(f"• {char}")
 
 # 얼굴 랜드마크 감지 함수
 def detect_facial_landmarks(image):
@@ -593,22 +666,15 @@ if uploaded_image is not None:
 else:
     st.info("얼굴 사진을 업로드하면 눈썹을 분석하고 메이크업을 추천해 드립니다.")
     
-    # 예시 이미지 표시
-    st.subheader("눈썹 모양 예시")
-    col1, col2, col3, col4 = st.columns(4)
+    # 눈썹 유형별 예시 이미지 표시
+    st.subheader("눈썹 유형별 특징")
+    cols = st.columns(len(eyebrow_types))
     
-    with col1:
-        st.write("일자형 눈썹")
-        st.image("https://via.placeholder.com/150x100?text=일자형+눈썹", use_column_width=True)
-    
-    with col2:
-        st.write("아치형 눈썹")
-        st.image("https://via.placeholder.com/150x100?text=아치형+눈썹", use_column_width=True)
-    
-    with col3:
-        st.write("둥근형 눈썹")
-        st.image("https://via.placeholder.com/150x100?text=둥근형+눈썹", use_column_width=True)
-    
-    with col4:
-        st.write("각진형 눈썹")
-        st.image("https://via.placeholder.com/150x100?text=각진형+눈썹", use_column_width=True)
+    for i, (type_name, info) in enumerate(eyebrow_types.items()):
+        with cols[i]:
+            st.write(type_name)
+            st.image(info["image"], use_column_width=True)
+            st.write(info["description"])
+            st.write("**주요 특징:**")
+            for char in info["characteristics"][:2]:  # 주요 특징 2개만 표시
+                st.write(f"• {char}")
