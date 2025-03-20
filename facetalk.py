@@ -119,7 +119,7 @@ with st.sidebar:
     )
     
     if selected_type:
-        st.image(eyebrow_types[selected_type]["image"], caption=selected_type, use_column_width=True)
+        st.image(eyebrow_types[selected_type]["image"], caption=selected_type, use_container_width=True)
         st.write(eyebrow_types[selected_type]["description"])
         st.subheader("특징")
         for char in eyebrow_types[selected_type]["characteristics"]:
@@ -629,7 +629,7 @@ if uploaded_image is not None:
                 
                 for i, tab in enumerate(tabs):
                     with tab:
-                        st.image(makeup_images[i], caption=recommendations[i]["title"], use_column_width=True)
+                        st.image(makeup_images[i], caption=recommendations[i]["title"], use_container_width=True)
                         st.write(recommendations[i]["description"])
                         st.subheader("메이크업 방법")
                         for step_idx, step in enumerate(recommendations[i]["steps"]):
@@ -673,7 +673,7 @@ else:
     for i, (type_name, info) in enumerate(eyebrow_types.items()):
         with cols[i]:
             st.write(type_name)
-            st.image(info["image"], use_column_width=True)
+            st.image(info["image"], use_container_width=True)
             st.write(info["description"])
             st.write("**주요 특징:**")
             for char in info["characteristics"][:2]:  # 주요 특징 2개만 표시
