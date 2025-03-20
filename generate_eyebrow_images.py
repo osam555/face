@@ -32,9 +32,9 @@ cv2.imwrite('images/eyebrow_types/straight.jpg', img)
 img = np.ones((300, 400, 3), dtype=np.uint8) * 255
 points = np.array([
     [100, 150],  # 시작점
-    [150, 140],  # 컨트롤 포인트 1
-    [200, 120],  # 정점
-    [250, 140],  # 컨트롤 포인트 2
+    [150, 130],  # 컨트롤 포인트 1 (더 높게)
+    [200, 110],  # 정점 (더 높게)
+    [250, 130],  # 컨트롤 포인트 2 (더 높게)
     [300, 150]   # 끝점
 ], dtype=np.int32)
 img = draw_smooth_curve(img, points)
@@ -44,19 +44,24 @@ cv2.imwrite('images/eyebrow_types/arched.jpg', img)
 img = np.ones((300, 400, 3), dtype=np.uint8) * 255
 points = np.array([
     [100, 150],  # 시작점
-    [150, 145],  # 컨트롤 포인트 1 (더 완만한 곡선을 위해 높이 조정)
-    [200, 140],  # 정점 (더 낮은 높이로 조정)
-    [250, 145],  # 컨트롤 포인트 2
+    [150, 135],  # 컨트롤 포인트 1
+    [200, 125],  # 정점 (더 높게)
+    [250, 135],  # 컨트롤 포인트 2
     [300, 150]   # 끝점
 ], dtype=np.int32)
 img = draw_smooth_curve(img, points)
 cv2.imwrite('images/eyebrow_types/rounded.jpg', img)
 
-# 각진형 눈썹
+# 각진형 눈썹 (부드러운 곡선으로 변경)
 img = np.ones((300, 400, 3), dtype=np.uint8) * 255
-pts = np.array([[100, 150], [200, 100], [300, 150]], np.int32)
-cv2.polylines(img, [pts], False, (0, 0, 0), 3)
-cv2.line(img, (200, 100), (200, 150), (0, 0, 0), 2)
+points = np.array([
+    [100, 150],  # 시작점
+    [150, 130],  # 컨트롤 포인트 1
+    [200, 115],  # 정점
+    [250, 130],  # 컨트롤 포인트 2
+    [300, 150]   # 끝점
+], dtype=np.int32)
+img = draw_smooth_curve(img, points)
 cv2.imwrite('images/eyebrow_types/angular.jpg', img)
 
 # 기본형 눈썹
